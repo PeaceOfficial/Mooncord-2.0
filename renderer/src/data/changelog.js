@@ -5,7 +5,7 @@ export default {
     title: "Mooncord",
     subtitle: `v${config.version}`,
     banner: "https://raw.githubusercontent.com/PeaceOfficial/Mooncord-2.0/refs/heads/main/assets/pictures/mooncord-logo.png",
-    blurb: "I’m thrilled to share some exciting news! I’ve officially released the first Mooncord 2.0 - build...",
+    blurb: "I’m thrilled to share some exciting news Mooncorders! I’ve officially released the first Mooncord 2.0 - build...",
     changes: [
         {
             title: "New Plugin >> Moonlink",
