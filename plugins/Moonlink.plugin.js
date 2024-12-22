@@ -1370,10 +1370,9 @@ module.exports = class Moonlink {
                     id: "changeProfileEffectButton",
                     style: {
                         width: "100px",
-                        height: "50px",
+                        height: "32px",
                         color: "white",
-                        borderRadius: "3px",
-                        marginLeft: "5px",
+                        marginLeft: "10px"
                     },
                     onClick: () => {
                         UI.showConfirmationModal("Change Profile Effect (Moonlink)", React.createElement(EffectsModal));
