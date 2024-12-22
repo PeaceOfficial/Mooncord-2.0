@@ -1,0 +1,45 @@
+{
+    "name": "mooncord",
+    "version": "1.11.0",
+    "description": "Mooncord enhances the functionality of Discord by introducing a variety of new features.",
+    "main": "src/index.js",
+    "scripts": {
+        "build": "pnpm run build-injector && pnpm run build-preload && pnpm run build-renderer",
+        "build-prod": "pnpm --filter injector build-prod && pnpm --filter preload build-prod && pnpm --filter renderer build-prod",
+        "build-injector": "pnpm --filter injector build",
+        "build-renderer": "pnpm --filter renderer build",
+        "build-preload": "pnpm --filter preload build",
+        "inject": "node scripts/inject.js",
+        "lint": "eslint --ext .js common/ && pnpm --filter injector lint && pnpm --filter preload lint && pnpm --filter renderer lint-js",
+        "test": "mocha --require @babel/register --recursive \"./tests/renderer/*.js\"",
+        "dist": "pnpm run build-prod && node scripts/pack.js",
+        "api": "jsdoc -X -r renderer/src/modules/api/ > jsdoc-ast.json",
+        "translations": "node -r dotenv/config scripts/translations.js"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.23.9",
+        "@babel/preset-env": "^7.23.9",
+        "@babel/register": "^7.23.7",
+        "@electron/asar": "^3.2.0",
+        "dotenv": "^16.4.5",
+        "eslint": "^8.57.0",
+        "eslint-plugin-react": "^7.33.2",
+        "eslint-plugin-react-hooks": "^4.6.0",
+        "mocha": "^10.3.0",
+        "terser-webpack-plugin": "^5.3.10",
+        "webpack": "^5.90.3",
+        "webpack-cli": "^4.10.0"
+    },
+    "engines": {
+        "node": ">=14",
+        "pnpm": ">=7"
+    },
+    "pnpm": {
+        "overrides": {
+            "json5@<1.0.2": ">=1.0.2",
+            "braces@<3.0.3": ">=3.0.3",
+            "webpack@<5.94.0": ">=5.94.0",
+            "micromatch@<4.0.8": ">=4.0.8"
+        }
+    }
+}
