@@ -1121,24 +1121,24 @@ module.exports = class Moonlink {
 
         // Use CSS to select badge elements via aria-label and change them to the correct icon.
         BdApi.DOM.addStyle("MoonlinkBadges", `
-            a[aria-label="Moonlink user!"] img {
-                content: url("https://raw.githubusercontent.com/riolubruh/riolubruh.github.io/main/badge.png") !important;
+            a[aria-label="Mooncord user!"] img {
+                content: url("https://raw.githubusercontent.com/PeaceOfficial/Mooncord-2.0/refs/heads/main/assets/badges/mooncord_user_icon.gif") !important;
             }
             
             div [aria-label="Moonlink user!"] > a > img {
-                content: url("https://raw.githubusercontent.com/riolubruh/riolubruh.github.io/main/badge.png") !important;
+                content: url("https://raw.githubusercontent.com/PeaceOfficial/Mooncord-2.0/refs/heads/main/assets/badges/moonlink_user_icon.gif") !important;
             }
 
             a[aria-label="Moonlink Creator!"] img, a[aria-label="Moonlink Contributor!"] img  {
                 content: url("https://i.imgur.com/bYGGXnq.gif") !important;
             }
             
-            div [aria-label="Moonlink Creator!"] > a > img {
-                content: url("https://i.imgur.com/bYGGXnq.gif") !important;
+            div [aria-label="Mooncord Creator!"] > a > img {
+                content: url("https://raw.githubusercontent.com/PeaceOfficial/Mooncord-2.0/refs/heads/main/assets/badges/mooncord_owner_icon.gif") !important;
             }
             
             div [aria-label="Moonlink Contributor!"] > a > img {
-                content: url("https://i.imgur.com/bYGGXnq.gif") !important;
+                content: url("https://raw.githubusercontent.com/PeaceOfficial/Mooncord-2.0/refs/heads/main/assets/badges/moonlink_contributor_icon.png") !important;
             }
         `);
 
@@ -1180,13 +1180,13 @@ module.exports = class Moonlink {
             // List of Discord User IDs of people who have made contributions to the plugin
             // Special thanks to the following gamers:
 
-            const specialThanks = [
+            const Contributions = [
                 "526750150660456451", // Fiji,
                 "808258212956602380" // Blade,
             ];
 
-            // if the currently processed user is included in specialThanks, and they don't already have the badge applied,
-            if (specialThanks.includes(ret.userId) && !badgesList.includes("moonlink_contributor")) {
+            // if the currently processed user is included in Contributions, and they don't already have the badge applied,
+            if (Contributions.includes(ret.userId) && !badgesList.includes("moonlink_contributor")) {
                 // add the moonlink contributor badge to the contributor's list of badges
                 ret.badges.push({
                     id: "moonlink_contributor",
