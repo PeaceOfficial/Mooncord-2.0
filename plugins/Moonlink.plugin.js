@@ -19,7 +19,7 @@
  * @author peaceofficial
  * @version 1.0
  * @invite 3H4tmZpK3z
- * @source https://github.com/PeaceOfficial/Moonlink
+ * @source https://github.com/PeaceOfficial/Mooncord-2.0
  * @donate https://www.paypal.com/donate/?hosted_button_id=9Y2M3UBRP6MGY
  * @updateUrl https://raw.githubusercontent.com/PeaceOfficial/Mooncord-2.0/refs/heads/main/plugins/Moonlink.plugin.js
  * @description Moonlink is a powerful „Api & Plugin” designed to seamlessly connect and enhance the functionalities of Mooncord. Acting as a bridge, Moonlink facilitates effortless integration, allowing users to customize their experience and unlock & bypass „Discord Nitro” features.
@@ -145,8 +145,8 @@ const config = {
         }],
         version: "1.0",
         description: "Moonlink is a powerful „Api & Plugin” designed to seamlessly connect and enhance the functionalities of Mooncord. Acting as a bridge, Moonlink facilitates effortless integration, allowing users to customize their experience and unlock & bypass „Discord Nitro” features.",
-        github: "https://github.com/PeaceOfficial/Moonlink",
-        github_raw: "https://raw.githubusercontent.com/PeaceOfficial/Moonlink/main/Moonlink.plugin.js"
+        github: "https://github.com/PeaceOfficial/Mooncord-2.0",
+        github_raw: "https://raw.githubusercontent.com/PeaceOfficial/Mooncord-2.0/refs/heads/main/plugins/Moonlink.plugin.js"
     },
     changelog: [
         {
