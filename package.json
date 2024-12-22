@@ -1,6 +1,6 @@
 {
     "name": "mooncord",
-    "version": "1.0",
+    "version": "1.11.0",
     "description": "Mooncord enhances the functionality of Discord by introducing a variety of new features.",
     "main": "src/index.js",
     "scripts": {
