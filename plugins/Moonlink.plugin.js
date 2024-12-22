@@ -1,7 +1,3 @@
-/* eslint-disable spaced-comment */
-/* eslint-disable space-before-blocks */
-/* eslint-disable keyword-spacing */
-/* eslint-disable brace-style */
 /**
  * @name Moonlink
  * @author peaceofficial
@@ -27,6 +23,10 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-tabs */
 /* eslint-disable prefer-const */
+/* eslint-disable spaced-comment */
+/* eslint-disable space-before-blocks */
+/* eslint-disable keyword-spacing */
+/* eslint-disable brace-style */
 
 /* @cc_on
 @if(@_jscript)
