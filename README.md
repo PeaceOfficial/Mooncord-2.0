@@ -6,7 +6,7 @@
 
 <p align="center">
   <a href="https://github.com/PeaceOfficial/Mooncord">
-    <img src="./browser/icon.png" width="200" alt="Mooncord">
+    <img src="./assets/pictures/mooncord-logo.png" width="200" alt="Mooncord">
   </a>
 </p>
 
