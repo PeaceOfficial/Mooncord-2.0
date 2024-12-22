@@ -36,7 +36,7 @@ const twitter = <DiscordModules.Tooltip color="primary" position="top" text={Str
     </DiscordModules.Tooltip>;
 
 const github = <DiscordModules.Tooltip color="primary" position="top" text={Strings.Socials.github}>
-    {p => <a {...p} className="bd-social" href="https://github.com/Mooncord/Mooncord" rel="noopener noreferrer" target="_blank">
+    {p => <a {...p} className="bd-social" href="https://github.com/PeaceOfficial/Mooncord" rel="noopener noreferrer" target="_blank">
         <GitHub />
         </a>}
     </DiscordModules.Tooltip>;

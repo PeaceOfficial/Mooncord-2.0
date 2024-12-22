@@ -6,19 +6,20 @@ export default {
     subtitle: `v${config.version}`,
     // video: "https://www.youtube.com/embed/evyvq9eQTqA?si=opmzjGjUArT4VLrj&vq=hd720p&hd=1&rel=0&showinfo=0&mute=1&loop=1&autohide=1",
     // banner: "https://i.imgur.com/wuh5yMK.png",
-    banner: "https://raw.githubusercontent.com/PeaceOfficial/Mooncord/refs/heads/main/browser/icon.png",
+    banner: "https://raw.githubusercontent.com/PeaceOfficial/Mooncord-Rework/refs/heads/main/assets/pictures/mooncord-logo.png?token=GHSAT0AAAAAAC4JGLACDMAY4WZENVAY5UEMZ3IQKSA",
     blurb: "This update is mostly to make the lives of plugin developers easier. Users should see more plugins with fancy settings panels in the coming days!",
     changes: [
         {
-            title: "New Plugin APIs",
+            title: "New Plugin >> Moonlink",
             type: "added",
-            blurb: "Documentation for these new APIs should be arriving soon. In the meantime, I recommend taking a look at [this demo plugin](https://gist.github.com/zerebos/b13adc05f22df008ee5d0411d9d18ff0) that nicely showcases some of the new APIs.",
+            blurb: "Moonlink is a powerful „Api & Plugin” designed to seamlessly connect and enhance the functionalities of Mooncord. Acting as a bridge, Moonlink facilitates effortless integration, allowing users to customize their experience and unlock & bypass „Discord Nitro” features.",
             items: [
-                "Plugins can now show a fancy changelog modal using `BdApi.UI.showChangelogModal`!",
-                "New utilities were added to `Utils` as `getNestedValue` and `semverCompare`. You may know them from ZLibrary already.",
-                "Settings panels are now easier to build than ever. You can build individual settings with `UI.buildSettingItem` or an entire panel at once using `UI.buildSettingsPanel`. It's very customizable including letting you use custom components!",
-                "Debug data can now be easily and fancily output to console using the new `Logger` namespace.",
-                "Mooncord's own React components (or at least some of them) are now available under `BdApi.Components`. This should make building stable UIs much easier.",
+                "Unlocked Nitro Functions: Access exclusive features without limitations.",
+                "Custom Streaming Settings: Tailored configurations for the best streaming experience.",
+                "Tweaks and Optimizations: Smoother and more personalized interactions.",
+                "Avatar & Banner Decorations: Unlock unique ways to style your profile.",
+                "Custom Decorations: Fully personalize your Discord experience.",
+                "Custom Themes: Design your client to reflect your style.",
             ]
         },
         {

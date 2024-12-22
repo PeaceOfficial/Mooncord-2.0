@@ -1,6 +1,6 @@
 {
     "name": "mooncord",
-    "version": "1.11.0",
+    "version": "1.0",
     "description": "Mooncord enhances the functionality of Discord by introducing a variety of new features.",
     "main": "src/index.js",
     "scripts": {
@@ -11,7 +11,6 @@
         "build-preload": "pnpm --filter preload build",
         "inject": "node scripts/inject.js",
         "lint": "eslint --ext .js common/ && pnpm --filter injector lint && pnpm --filter preload lint && pnpm --filter renderer lint-js",
-        "test": "mocha --require @babel/register --recursive \"./tests/renderer/*.js\"",
         "dist": "pnpm run build-prod && node scripts/pack.js",
         "api": "jsdoc -X -r renderer/src/modules/api/ > jsdoc-ast.json",
         "translations": "node -r dotenv/config scripts/translations.js"
