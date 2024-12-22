@@ -4,9 +4,7 @@ import config from "./config";
 export default {
     title: "Mooncord",
     subtitle: `v${config.version}`,
-    // video: "https://www.youtube.com/embed/evyvq9eQTqA?si=opmzjGjUArT4VLrj&vq=hd720p&hd=1&rel=0&showinfo=0&mute=1&loop=1&autohide=1",
-    // banner: "https://i.imgur.com/wuh5yMK.png",
-    banner: "https://raw.githubusercontent.com/PeaceOfficial/Mooncord-Rework/refs/heads/main/assets/pictures/mooncord-logo.png?token=GHSAT0AAAAAAC4JGLACDMAY4WZENVAY5UEMZ3IQKSA",
+    banner: "https://raw.githubusercontent.com/PeaceOfficial/Mooncord-2.0/refs/heads/main/assets/pictures/mooncord-logo.png",
     blurb: "This update is mostly to make the lives of plugin developers easier. Users should see more plugins with fancy settings panels in the coming days!",
     changes: [
         {

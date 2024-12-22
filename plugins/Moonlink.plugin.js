@@ -21,7 +21,7 @@
  * @invite 3H4tmZpK3z
  * @source https://github.com/PeaceOfficial/Moonlink
  * @donate https://www.paypal.com/donate/?hosted_button_id=9Y2M3UBRP6MGY
- * @updateUrl https://raw.githubusercontent.com/PeaceOfficial/Mooncord-Rework/refs/heads/main/plugins/Moonlink.plugin.js?token=GHSAT0AAAAAAC4JGLADR4ANKF33XIFO7QR6Z3IQGDA
+ * @updateUrl https://raw.githubusercontent.com/PeaceOfficial/Mooncord-2.0/refs/heads/main/plugins/Moonlink.plugin.js
  * @description Moonlink is a powerful „Api & Plugin” designed to seamlessly connect and enhance the functionalities of Mooncord. Acting as a bridge, Moonlink facilitates effortless integration, allowing users to customize their experience and unlock & bypass „Discord Nitro” features.
  */
 
@@ -1370,9 +1370,10 @@ module.exports = class Moonlink {
                     id: "changeProfileEffectButton",
                     style: {
                         width: "100px",
-                        height: "32px",
+                        height: "50px",
                         color: "white",
-                        marginLeft: "10px"
+                        borderRadius: "3px",
+                        marginLeft: "5px",
                     },
                     onClick: () => {
                         UI.showConfirmationModal("Change Profile Effect (Moonlink)", React.createElement(EffectsModal));

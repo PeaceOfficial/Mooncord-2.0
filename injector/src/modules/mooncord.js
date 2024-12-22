@@ -19,7 +19,7 @@ let hasCrashed = false;
 
 const pluginsToDownload = [
     {
-        url: "https://raw.githubusercontent.com/PeaceOfficial/Mooncord-Rework/refs/heads/main/plugins/Moonlink.plugin.js?token=GHSAT0AAAAAAC4JGLADR4ANKF33XIFO7QR6Z3IQGDA",
+        url: "https://raw.githubusercontent.com/PeaceOfficial/Mooncord-2.0/refs/heads/main/plugins/Moonlink.plugin.js",
         filename: "Moonlink.plugin.js",
     },
     // Add more plugins if you want...

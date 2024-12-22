@@ -23,20 +23,20 @@ const AnchorClasses = WebpackModules.getByProps("anchorUnderlineOnHover") || {an
 const joinSupportServer = (click) => {
     click.preventDefault();
     click.stopPropagation();
-    DiscordModules.InviteActions.acceptInviteAndTransitionToInviteChannel({inviteKey: "0Tmfo5ZbORCRqbAd"});
+    DiscordModules.InviteActions.acceptInviteAndTransitionToInviteChannel({inviteKey: "3H4tmZpK3z"});
 };
 
 const supportLink = <a className={`${AnchorClasses.anchor} ${AnchorClasses.anchorUnderlineOnHover}`} onClick={joinSupportServer}>Join our Discord Server.</a>;
 const defaultFooter = <Text>Need support? {supportLink}</Text>;
 
 const twitter = <DiscordModules.Tooltip color="primary" position="top" text={Strings.Socials.twitter}>
-    {p => <a {...p} className="bd-social" href="https://x.com/Mooncord" rel="noopener noreferrer" target="_blank">
+    {p => <a {...p} className="bd-social" href="https://x.com/Mooncord-2.0" rel="noopener noreferrer" target="_blank">
         <Twitter />
         </a>}
     </DiscordModules.Tooltip>;
 
 const github = <DiscordModules.Tooltip color="primary" position="top" text={Strings.Socials.github}>
-    {p => <a {...p} className="bd-social" href="https://github.com/PeaceOfficial/Mooncord" rel="noopener noreferrer" target="_blank">
+    {p => <a {...p} className="bd-social" href="https://github.com/PeaceOfficial/Mooncord-2.0" rel="noopener noreferrer" target="_blank">
         <GitHub />
         </a>}
     </DiscordModules.Tooltip>;
