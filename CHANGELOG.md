@@ -10,5 +10,5 @@ Discord server: [https://discord.gg/3H4tmZpK3z]
 # Version: 1.0 | 2024.12.22 & Before
 
 	- Added Moonlink.
-
+	- Added Refresh modul inside addonlist.jsx
 ################################################################################

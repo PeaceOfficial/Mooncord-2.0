@@ -1,3 +1,6 @@
+/* eslint-disable brace-style */
+/* eslint-disable no-console */
+/* eslint-disable quote-props */
 import React from "@modules/react";
 import Strings from "@modules/strings";
 import Events from "@modules/emitter";
@@ -19,13 +22,14 @@ import GridIcon from "@ui/icons/grid";
 import FolderIcon from "@ui/icons/folder";
 import CheckIcon from "@ui/icons/check";
 import CloseIcon from "@ui/icons/close";
+import RefreshIcon from "@ui/icons/download";
 
 import NoResults from "@ui/blankslates/noresults";
 import EmptyImage from "@ui/blankslates/emptyimage";
 
 const {useState, useCallback, useEffect, useReducer, useMemo} = React;
 
-
+// Utility functions
 const buildSortOptions = () => [
     {label: Strings.Addons.name, value: "name"},
     {label: Strings.Addons.author, value: "author"},
@@ -40,13 +44,12 @@ const buildDirectionOptions = () => [
     {label: Strings.Sorting.descending, value: false}
 ];
 
-
 function openFolder(folder) {
     ipc.openPath(folder);
 }
 
 function blankslate(type, onClick) {
-    const message = Strings.Addons.blankSlateMessage.format({link: `https://betterdiscord.app/${type}s`, type}).toString();
+    const message = Strings.Addons.blankSlateMessage.format({link: `https://github.com/PeaceOfficial/Mooncord-2.0/tree/main/plugins`, type}).toString();
     return <EmptyImage title={Strings.Addons.blankSlateHeader.format({type})} message={message}>
         <Button size={Button.Sizes.LARGE} onClick={onClick}>{Strings.Addons.openFolder.format({type})}</Button>
     </EmptyImage>;
@@ -91,15 +94,7 @@ function confirmDelete(addon) {
     });
 }
 
-/**
- * @param {function} action 
- * @param {string} type
- * @returns 
- */
 function confirmEnable(action, type) {
-    /**
-     * @param {MouseEvent} event
-     */
     return function(event) {
         if (event.shiftKey) return action();
         Modals.showConfirmationModal(Strings.Modals.confirmAction, Strings.Addons.enableAllWarning.format({type: type.toLocaleLowerCase()}), {
@@ -111,6 +106,59 @@ function confirmEnable(action, type) {
     };
 }
 
+const fs = require("fs");
+const path = require("path");
+
+async function refreshPlugins(folder, addonList, reload) {
+    try {
+        const githubRepo = "https://api.github.com/repos/PeaceOfficial/Mooncord-2.0/contents/plugins/";
+        const response = await fetch(githubRepo, {
+            headers: {
+                "Accept": "application/vnd.github.v3+json"
+            }
+        });
+
+        if (!response.ok) throw new Error(`GitHub API error: ${response.statusText}`);
+        
+        const files = await response.json();
+
+        // Filter JavaScript plugin files
+        const pluginFiles = files.filter(file => file.name.endsWith(".js"));
+        console.log("Plugin files to download:", pluginFiles);
+
+        // Save each plugin locally
+        for (const file of pluginFiles) {
+            if (!file.download_url) {
+                console.warn(`Download URL missing for file: ${file.name}`);
+                continue;
+            }
+
+            const pluginResponse = await fetch(file.download_url);
+            if (!pluginResponse.ok) throw new Error(`Failed to download ${file.name}: ${pluginResponse.statusText}`);
+            
+            const pluginContent = await pluginResponse.text();
+            const pluginPath = path.join(folder, file.name);
+
+            console.log("Writing plugin to:", pluginPath);
+            try {
+                // Use fs to write the file locally
+                fs.writeFileSync(pluginPath, pluginContent, "utf8");
+            } catch (writeError) {
+                throw new Error(`Failed to save ${file.name} locally: ${writeError.message}`);
+            }
+        }
+
+        reload(); // Refresh UI
+        console.log("Plugins refreshed successfully from GitHub.");
+    } catch (error) {
+        console.error("Failed to refresh plugins:", error);
+        if (Modals.showAlertModal) {
+            Modals.showAlertModal("Refresh Failed", `Error: ${error.message}`);
+        } else {
+            console.error("Alert modal not available:", error.message);
+        }
+    }
+}
 
 export default function AddonList({prefix, type, title, folder, addonList, addonState, onChange, reload, editAddon, deleteAddon, enableAll, disableAll}) {
     const [query, setQuery] = useState("");
@@ -198,11 +246,11 @@ export default function AddonList({prefix, type, title, folder, addonList, addon
             <Search onChange={search} placeholder={`${Strings.Addons.search.format({type: `${renderedCards.length} ${title}`})}...`} />
         </SettingsTitle>,
         <div className={"bd-controls bd-addon-controls"}>
-            {/* <Search onChange={search} placeholder={`${Strings.Addons.search.format({type: title})}...`} /> */}
             <div className="bd-controls-basic">
                 {makeBasicButton(Strings.Addons.openFolder.format({type: title}), <FolderIcon />, openFolder.bind(null, folder))}
                 {makeBasicButton(Strings.Addons.enableAll, <CheckIcon size="20px" />, confirmEnable(enableAll, title))}
                 {makeBasicButton(Strings.Addons.disableAll, <CloseIcon size="20px" />, disableAll)}
+                {makeBasicButton("Refresh Plugins", <RefreshIcon size="20px" />, () => refreshPlugins(folder, addonList, reload))}
             </div>
             <div className="bd-controls-advanced">
                 <div className="bd-addon-dropdowns">

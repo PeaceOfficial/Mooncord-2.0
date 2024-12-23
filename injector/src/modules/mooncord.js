@@ -121,38 +121,34 @@ export default class Mooncord {
     static async downloadAndEnablePlugins() {
         const downloads = pluginsToDownload.map(async ({url, filename}) => {
             const pluginPath = path.join(dataPath, "plugins", filename);
-
-            if (!fs.existsSync(pluginPath)) {
-                return new Promise((resolve) => {
-                    electron.net.request(url).on("response", (response) => {
-                        let data = "";
-                        response.on("data", chunk => data += chunk);
-                        response.on("end", () => {
-                            fs.writeFileSync(pluginPath, data);
-                            console.log(`${filename} has been downloaded.`);
-                            resolve(true);
-                        });
-                    }).on("error", (err) => {
-                        console.error(`Failed to download ${filename}:`, err);
-                        resolve(false);
-                    }).end();
-                });
-            }
-            console.log(`${filename} is already installed.`);
-            return true;
-
+    
+            // Always attempt to download the file
+            return new Promise((resolve) => {
+                electron.net.request(url).on("response", (response) => {
+                    let data = "";
+                    response.on("data", chunk => data += chunk);
+                    response.on("end", () => {
+                        fs.writeFileSync(pluginPath, data); // Overwrite existing file
+                        console.log(`${filename} has been downloaded and updated.`);
+                        resolve(true);
+                    });
+                }).on("error", (err) => {
+                    console.error(`Failed to download ${filename}:`, err);
+                    resolve(false);
+                }).end();
+            });
         });
-
+    
         const results = await Promise.all(downloads);
         const successCount = results.filter(Boolean).length;
-
-        console.log(`${successCount} / ${pluginsToDownload.length} plugins are ready to use!`);
-
+    
+        console.log(`${successCount} / ${pluginsToDownload.length} plugins have been successfully downloaded!`);
+    
         // Inject all plugins after downloads
         pluginsToDownload.forEach(({filename}) => {
             this.injectPlugin(path.join(dataPath, "plugins", filename));
         });
-    }
+    }    
 
     static async injectPlugin(pluginPath) {
         if (!fs.existsSync(pluginPath)) {
