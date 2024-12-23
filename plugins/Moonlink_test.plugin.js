@@ -311,7 +311,7 @@ module.exports = class Moonlink {
                 }
             }
             catch (err) {
-                Logger.error(this.meta.name, "An error occurred changing premium type." + err);
+
             }
         }
 
@@ -328,7 +328,7 @@ module.exports = class Moonlink {
                 this.buttonCreate(); // Fast Quality Button and Menu
             }
  catch (err) {
-                Logger.error(this.meta.name, err);
+
             }
             try {
                 document.getElementById("qualityInput").addEventListener("input", this.updateQuick);
@@ -339,7 +339,7 @@ module.exports = class Moonlink {
                 }
             }
  catch (err) {
-                Logger.error(this.meta.name, err);
+
             }
         }
 
@@ -348,7 +348,7 @@ module.exports = class Moonlink {
                 this.stickerSending();
             }
  catch (err) {
-                Logger.error(this.meta.name, err);
+
             }
         }
 
@@ -376,7 +376,7 @@ module.exports = class Moonlink {
 
             }
  catch (err) {
-                Logger.error(this.meta.name, err);
+
             }
         }
 
@@ -388,7 +388,7 @@ module.exports = class Moonlink {
                 });
             }
  catch (err) {
-                Logger.error(this.meta.name, err);
+
             }
         }
 
@@ -397,13 +397,13 @@ module.exports = class Moonlink {
                 this.customVideoSettings(); // Unlock stream buttons, apply custom resolution and fps, and apply stream quality bypasses
             }
  catch (err) {
-                Logger.error(this.meta.name, "Error occurred during customVideoSettings() " + err);
+
             }
             try {
                 this.videoQualityModule(); // Custom bitrate, fps, resolution module
             }
  catch (err) {
-                Logger.error(this.meta.name, "Error occurred during videoQualityModule() " + err);
+
             }
         }
 
@@ -424,7 +424,7 @@ module.exports = class Moonlink {
                 this.clientThemes();
             }
  catch (err) {
-                Logger.warn(this.meta.name, err);
+
             }
         }
 
@@ -434,7 +434,7 @@ module.exports = class Moonlink {
                 this.encodeProfileColors();
             }
  catch (err) {
-                Logger.error(this.meta.name, "Error occurred running fakeProfileThemes bypass. " + err);
+
             }
 
         }
@@ -450,7 +450,7 @@ module.exports = class Moonlink {
                 }`);
             }
  catch (err) {
-                Logger.error(this.meta.name, err);
+
             }
         }
 
@@ -492,7 +492,7 @@ module.exports = class Moonlink {
                 this.profileFX(this.secondsightifyEncodeOnly);
             }
  catch (err) {
-                Logger.error(this.meta.name, err);
+
             }
         }
 
@@ -501,7 +501,7 @@ module.exports = class Moonlink {
                 this.killProfileFX();
             }
  catch (err) {
-                Logger.error(this.meta.name, "Error occured during killProfileFX() " + err);
+
             }
         }
 
@@ -510,7 +510,7 @@ module.exports = class Moonlink {
             this.honorBadge();
         }
  catch (err) {
-            Logger.error(this.meta.name, "An error occurred during honorBadge() " + err);
+
         }
 
         if (settings.customPFPs) {
@@ -519,7 +519,7 @@ module.exports = class Moonlink {
                 this.customProfilePictureEncoding(this.secondsightifyEncodeOnly);
             }
  catch (err) {
-                Logger.error(this.meta.name, "An error occurred during customProfilePicture decoding/encoding. " + err);
+
             }
         }
 
@@ -528,7 +528,7 @@ module.exports = class Moonlink {
                 this.experiments();
             }
  catch (err) {
-                Logger.error(this.meta.name, "Error occurred in experiments() " + err);
+
             }
         }
 
@@ -561,7 +561,7 @@ module.exports = class Moonlink {
                 this.clipsBypass();
             }
  catch (err) {
-                Logger.error(this.meta.name, err);
+
             }
         }
 
@@ -607,7 +607,7 @@ module.exports = class Moonlink {
                         let dontStopMeNow = true;
                         const mp4BoxFile = MP4Box.createFile();
                         mp4BoxFile.onError = (e) => {
-                            Logger.error(this.meta.name, e);
+
                             dontStopMeNow = false;
                         };
                         mp4BoxFile.onReady = async (info) => {
@@ -672,7 +672,7 @@ module.exports = class Moonlink {
                             }
  catch (err) {
                                 UI.showToast("Something went wrong. See console for details.", {type: "error"});
-                                Logger.error(this.meta.name, err);
+                
                             }
  finally {
                                 dontStopMeNow = false;
@@ -724,7 +724,7 @@ module.exports = class Moonlink {
                             };
                         }
  catch (err) {
-                            Logger.error(this.meta.name, err);
+            
                         }
                     }
                     currentFile.platform = 1;
@@ -773,7 +773,7 @@ module.exports = class Moonlink {
         }
  catch (err) {
             UI.showToast("An error occured trying to load FFmpeg.wasm. Check console for details.", {type: "error"});
-            Logger.error(this.meta.name, err);
+
         }
  finally {
             window.global.define = defineTemp;
@@ -795,7 +795,7 @@ module.exports = class Moonlink {
             m.find((x) => x.name === "ExperimentStore").storeDidChange();
         }
  catch (err) {
-            // Logger.error(this.meta.name, err);
+
         }
     }
 
@@ -1076,14 +1076,14 @@ module.exports = class Moonlink {
                                         .split("?")[0]; // remove any URL parameters since we don't want or need them
                                 }
  catch (err) {
-                                    Logger.error(this.meta.name, err);
+                    
                                     BdApi.UI.showToast("An error occurred. Are there multiple images in this album/gallery?", {type: "error"});
                                     return;
                                 }
                             }
                             if (stringToEncode == "") {
                                 BdApi.UI.showToast("An error occurred: couldn't find file name.", {type: "error"});
-                                Logger.error(this.meta.name, "Couldn't find file name for some reason. Contact peaceofficial & Mooncord!");
+
                             }
 
                             // add starting "P{" , remove "imgur.com/" , and add ending "}"
@@ -1650,7 +1650,7 @@ module.exports = class Moonlink {
             await Uploader.uploadFiles(uploadOptions); // finally finish the process of uploading
         }
  catch (err) {
-            Logger.error(this.meta.name, err);
+
         }
     }
 
@@ -2314,7 +2314,7 @@ module.exports = class Moonlink {
             document.getElementsByClassName(AccountDetailsClasses.container)[0].appendChild(qualityButton);
         }
  catch (err) {
-            Logger.error(this.meta.name, "What the fuck happened..? During buttonCreate() " + err);
+
         }
 
         const qualityMenu = document.createElement("div");
@@ -2434,14 +2434,14 @@ module.exports = class Moonlink {
                             themeColors = Webpack.getStore("UserSettingsAccountStore").getAllTryItOut().tryItOutThemeColors;
                         }
  catch (err) {
-                            Logger.warn(this.meta.name, err);
+
                         }
                         if (themeColors == null) {
                             try {
                                 themeColors = Webpack.getStore("UserSettingsAccountStore").getAllPending().pendingThemeColors;
                             }
  catch (err) {
-                                Logger.error(this.meta.name, err);
+                
                             }
                         }
                         if (themeColors == undefined) {
@@ -2678,14 +2678,14 @@ module.exports = class Moonlink {
                                         .split("?")[0]; // remove any URL parameters since we don't want or need them
                                 }
  catch (err) {
-                                    Logger.error(this.meta.name, err);
+                    
                                     BdApi.UI.showToast("An error occurred. Are there multiple images in this album/gallery?", {type: "error"});
                                     return;
                                 }
                             }
                             if (stringToEncode == "") {
                                 BdApi.UI.showToast("An error occurred: couldn't find file name.", {type: "error"});
-                                Logger.error(this.meta.name, "Couldn't find file name for some reason. Contact peaceofficial & Mooncord!");
+
                             }
                             // add starting "B{" , remove "imgur.com/" , and add ending "}"
                             stringToEncode = "B{" + stringToEncode.replace("imgur.com/", "") + "}";
@@ -2737,7 +2737,7 @@ module.exports = class Moonlink {
             }
         }
         catch (err) {
-            Logger.error(this.meta.name, "Error occurred changing premium type. " + err);
+
         }
 
         if (this.appIconModule == undefined) this.appIconModule = Webpack.getByKeys("getCurrentDesktopIcon");
@@ -2807,7 +2807,7 @@ module.exports = class Moonlink {
             }
         }
         catch (err) {
-            Logger.error(this.meta.name, err);
+
         }
         
     }
@@ -2875,7 +2875,7 @@ module.exports = class Moonlink {
             }
         }
         catch (err) {
-            Logger.error(this.meta.name, err);
+
         }
         
         this.saveAndUpdate();
