@@ -1,8 +1,3 @@
-/* stylelint-disable alpha-value-notation */
-/* stylelint-disable hue-degree-notation */
-/* stylelint-disable color-function-notation */
-/* stylelint-disable comment-empty-line-before */
-/* stylelint-disable comment-whitespace-inside */
 /**
  * @name Mooncord - Default Theme
  * @description Original dark rounded appearance of Mooncord, based on: [Midnight Theme]
@@ -12,9 +7,7 @@
 
 /* IMPORTANT: make sure to enable dark mode in discord settings for the theme to apply properly!!! */
 
-/*@import url('https://refact0r.github.io/midnight-discord/midnight.css');*/
-
-@import url('https://github.com/PeaceOfficial/Mooncord-2.0/blob/main/themes/mooncord-default-theme.css');
+@import url('https://github.com/PeaceOfficial/Mooncord-2.0/edit/main/themes/mooncord-default-theme.css');
 
 /* customize things here */
 :root {
@@ -86,4 +79,8 @@
 	--login-bg-filter: saturate(0.3) hue-rotate(-15deg) brightness(0.4); /* login background artwork */
 	--green-to-accent-3-filter: hue-rotate(56deg) saturate(1.43); /* add friend page explore icon */
 	--blurple-to-accent-3-filter: hue-rotate(304deg) saturate(0.84) brightness(1.2); /* add friend page school icon */
+
+	/* nav buttons */
+	--windows-nav: none;
+	--custom-nav: block;
 }
