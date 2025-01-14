@@ -1144,11 +1144,11 @@ module.exports = class Moonlink {
                 content: url("https://raw.githubusercontent.com/PeaceOfficial/Mooncord-2.0/refs/heads/main/assets/badges/moonlink_user_icon.gif") !important;
             }
 
-            a[aria-label="Moonlink Creator!"] img, a[aria-label="Moonlink Contributor!"] img  {
+            a[aria-label="Mooncord & Moonlink Creator!"] img, a[aria-label="Moonlink Contributor!"] img  {
                 content: url("https://raw.githubusercontent.com/PeaceOfficial/Mooncord-2.0/refs/heads/main/assets/badges/mooncord_owner_icon.gif") !important;
             }
             
-            div [aria-label="Moonlink Creator!"] > a > img {
+            div [aria-label="Mooncord & Moonlink Creator!"] > a > img {
                 content: url("https://raw.githubusercontent.com/PeaceOfficial/Mooncord-2.0/refs/heads/main/assets/badges/mooncord_owner_icon.gif") !important;
             }
             
