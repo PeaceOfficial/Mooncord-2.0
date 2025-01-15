@@ -1,18 +1,13 @@
-/* stylelint-disable color-hex-length */
-/* stylelint-disable alpha-value-notation */
-/* stylelint-disable hue-degree-notation */
-/* stylelint-disable comment-empty-line-before */
-/* stylelint-disable color-function-notation */
 /**
  * @name Mooncord - Spotify Theme
  * @description Bold greens and dark blacks, the vibe of music, inspired on: (Spotify) - theme.
  * @author PEACE
- * @version 1.0.0
+ * @version 1.0
 */
 
 /* IMPORTANT: make sure to enable dark mode in discord settings for the theme to apply properly!!! */
 
-@import url('https://raw.githubusercontent.com/PeaceOfficial/Mooncord/main/src/modules/themes/mooncord-default-theme.css');
+@import url('https://refact0r.github.io/midnight-discord/midnight.css');
 
 /* customize things here */
 :root {

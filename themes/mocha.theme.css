@@ -1,19 +1,13 @@
-/* stylelint-disable selector-class-pattern */
-/* stylelint-disable alpha-value-notation */
-/* stylelint-disable hue-degree-notation */
-/* stylelint-disable color-function-notation */
-/* stylelint-disable comment-empty-line-before */
-/* stylelint-disable comment-whitespace-inside */
 /**
  * @name Mooncord - Mocha Theme
  * @description Deep purple colors, blended with warm creamy purple and blue undertones.
  * @author PEACE
- * @version 1.0.0
+ * @version 1.0
 */
 
 /* IMPORTANT: make sure to enable dark mode in discord settings for the theme to apply properly!!! */
 
-@import url('https://raw.githubusercontent.com/PeaceOfficial/Mooncord/main/src/modules/themes/mooncord-default-theme.css');
+@import url('https://refact0r.github.io/midnight-discord/midnight.css');
 
 /* customize things here */
 :root {

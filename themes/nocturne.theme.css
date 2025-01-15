@@ -1,20 +1,12 @@
-/* stylelint-disable declaration-block-no-redundant-longhand-properties */
-/* stylelint-disable selector-class-pattern */
-/* stylelint-disable no-duplicate-selectors */
-/* stylelint-disable alpha-value-notation */
-/* stylelint-disable hue-degree-notation */
-/* stylelint-disable color-function-notation */
-/* stylelint-disable comment-empty-line-before */
-/* stylelint-disable function-url-quotes */
 /**
  * @name Mooncord - Nocturne Theme
  * @description Black and deep purple tones, illuminated by soft silver highlights.
  * @author PEACE
- * @version 1.0.0
+ * @version 1.0
 */
 
 /* IMPORTANT: make sure to enable dark mode in discord settings for the theme to apply properly!!! */
-@import url('https://raw.githubusercontent.com/PeaceOfficial/Mooncord/main/src/modules/themes/mooncord-default-theme.css');
+@import url('https://refact0r.github.io/midnight-discord/midnight.css');
 
 /* addons */
 @import url(https://mwittrien.github.io/BetterDiscordAddons/Themes/SettingsModal/SettingsModal.css);

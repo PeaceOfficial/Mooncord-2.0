@@ -1,21 +1,13 @@
-/* stylelint-disable selector-class-pattern */
-/* stylelint-disable rule-empty-line-before */
-/* stylelint-disable alpha-value-notation */
-/* stylelint-disable hue-degree-notation */
-/* stylelint-disable CssSyntaxError */
-/* stylelint-disable color-function-notation */
-/* stylelint-disable comment-empty-line-before */
-/* stylelint-disable comment-whitespace-inside */
 /**
  * @name Mooncord - Biscuit Theme
  * @description Buttery beige hues, flaky layers of a biscuit, blended with warm brown colors.
  * @author PEACE
- * @version 1.0.0
+ * @version 1.0
 */
 
 /* IMPORTANT: make sure to enable dark mode in discord settings for the theme to apply properly!!! */
 
-@import url('https://raw.githubusercontent.com/PeaceOfficial/Mooncord/main/src/modules/themes/mooncord-default-theme.css');
+@import url('https://refact0r.github.io/midnight-discord/midnight.css');
 
 /* customize things here */
 :root {
