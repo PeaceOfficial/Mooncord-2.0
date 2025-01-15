@@ -150,14 +150,14 @@ const config = {
             discord_id: "317206043039891459",
             github_username: "peaceofficial"
         }],
-        version: "1.0",
+        version: "1.1",
         description: "Moonlink is a powerful „Api & Plugin” designed to seamlessly connect and enhance the functionalities of Mooncord. Acting as a bridge, Moonlink facilitates effortless integration, allowing users to customize their experience and unlock & bypass „Discord Nitro” features.",
         github: "https://github.com/PeaceOfficial/Moonlink",
         github_raw: "https://raw.githubusercontent.com/PeaceOfficial/Moonlink/refs/heads/main/Moonlink.plugin.js"
     },
     changelog: [
         {
-            title: "1.0",
+            title: "1.1",
             items: [
                 "Made the plugin startable even if your config file is invalid.",
                 "Implemented functionality that will automatically reset your config file to default if it ever gets corrupted or is otherwise invalid.",
