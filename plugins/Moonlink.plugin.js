@@ -1,7 +1,7 @@
 /**
  * @name Moonlink
  * @author peaceofficial
- * @version 1.1
+ * @version 1.2
  * @invite 3H4tmZpK3z
  * @source https://github.com/PeaceOfficial/Moonlink
  * @donate https://www.paypal.com/donate/?hosted_button_id=9Y2M3UBRP6MGY
@@ -71,7 +71,6 @@ let usrBgUsers = [];
 const badgeUserIDs = [];
 let fetchedUserBg = false;
 let fetchedUserPfp = false;
-const downloadedUserProfiles = [];
 const userProfileMod = Webpack.getByKeys("getUserProfile");
 const buttonClassModule = Webpack.getByKeys("lookFilled", "button", "contents");
 const Dispatcher = Webpack.getByKeys("subscribe", "dispatch");
@@ -90,7 +89,7 @@ const MessageActions = Webpack.getByKeys("jumpToMessage", "_sendMessage");
 const SelectedChannelStore = Webpack.getStore("SelectedChannelStore");
 const UserStore = Webpack.getStore("UserStore");
 const AccountDetailsClasses = Webpack.getByKeys("container", "avatar", "hasBuildOverride");
-const MessageEmojiReact = Webpack.getAllByKeys("Y", "c").filter(obj => obj.Y.toString().includes("emoji"))[0].c;
+const MessageEmojiReact = Webpack.getAllByKeys("Y", "c").filter(obj => obj.Y.toString().includes("emoji"))[0].Y;
 const messageRender = Webpack.getByKeys("HR", "L5", "ZP");
 const renderEmbedsMod = BdApi.Webpack.getByKeys("$p", "BB", "ZP").BB.prototype;
 // #endregion
@@ -150,19 +149,18 @@ const config = {
             discord_id: "317206043039891459",
             github_username: "peaceofficial"
         }],
-        version: "1.1",
+        version: "1.2",
         description: "Moonlink is a powerful „Api & Plugin” designed to seamlessly connect and enhance the functionalities of Mooncord. Acting as a bridge, Moonlink facilitates effortless integration, allowing users to customize their experience and unlock & bypass „Discord Nitro” features.",
         github: "https://github.com/PeaceOfficial/Moonlink",
         github_raw: "https://raw.githubusercontent.com/PeaceOfficial/Moonlink/refs/heads/main/Moonlink.plugin.js"
     },
     changelog: [
         {
-            title: "1.1",
+            title: "1.2",
             items: [
-                "Made the plugin startable even if your config file is invalid.",
-                "Implemented functionality that will automatically reset your config file to default if it ever gets corrupted or is otherwise invalid.",
-                "Added embedding hyperlink emojis as emojis in messages, similar to Vencord's FakeNitro emojis.",
-                "Made the changelog appear if you update manually."
+                "Make experiments code wait for the Experiments stores to load before changing things to hopefully make it more reliable. #242.",
+                "Fix Fake Inline Hyperlink Emotes being too greedy and also removing embeds of linked emojis. #243.",
+                "Fix fake decorations not working if you put them in your bio."
             ]
         }
     ],
@@ -572,7 +570,6 @@ module.exports = class Moonlink {
             }
         }
 
-        console.log(settings);
         if(settings.fakeInlineVencordEmotes){
             this.inlineFakemojiPatch();
         }
@@ -781,36 +778,38 @@ module.exports = class Moonlink {
                 coreURL: ffmpegCoreURL,
                 wasmURL: ffmpegCoreWasmURL
             });
-            console.log("FFmpeg load success!");
+            Logger.info(this.meta.name, "FFmpeg load success!");
         }
  catch (err) {
             UI.showToast("An error occured trying to load FFmpeg.wasm. Check console for details.", {type: "error"});
+            Logger.info(this.meta.name, "FFmpeg failed to load. The clips bypass will not work without this unless the file is already the correct format! Error details below.")
             Logger.error(this.meta.name, err);
         }
  finally {
+            //Ensure we return window.global.define to its regular state just in case we errored during the short window where it has to be set to undefined.
             window.global.define = defineTemp;
         }
     } // End of loadFFmpeg()
 
-    experiments() {
+    async experiments() {
         try {
-            // code modified from https://gist.github.com/JohannesMP/afdf27383608c3b6f20a6a072d0be93c?permalink_comment_id=4784940#gistcomment-4784940
+            //wait for modules to be loaded, #242
+            await Webpack.waitForModule(Webpack.Filters.byStoreName("DeveloperExperimentStore"));
+            await Webpack.waitForModule(Webpack.Filters.byStoreName("ExperimentStore"));
+            //code modified from https://gist.github.com/JohannesMP/afdf27383608c3b6f20a6a072d0be93c?permalink_comment_id=4784940#gistcomment-4784940
             let wpRequire;
-            webpackChunkdiscord_app.push([[Math.random()], {}, (req) => {wpRequire = req;}]);
-            const u = Object.values(wpRequire.c).find((x) => x?.exports?.default?.getCurrentUser && x?.exports?.default?._dispatcher?._actionHandlers).exports.default;
-            const m = Object.values(u._dispatcher._actionHandlers._dependencyGraph.nodes);
+            webpackChunkdiscord_app.push([[Math.random()], {}, (req) => { wpRequire = req; }]);
+            let u = Object.values(wpRequire.c).find((x) => x?.exports?.default?.getCurrentUser && x?.exports?.default?._dispatcher?._actionHandlers).exports.default
+            let m = Object.values(u._dispatcher._actionHandlers._dependencyGraph.nodes);
 
             u.getCurrentUser().flags |= 1;
-            m.find((x) => x.name === "DeveloperExperimentStore").actionHandler.CONNECTION_OPEN();
-            try {m.find((x) => x.name === "ExperimentStore").actionHandler.OVERLAY_INITIALIZE({user: {flags: 1}});}
- catch { }
-            m.find((x) => x.name === "ExperimentStore").storeDidChange();
-        }
- catch (err) {
-            // Logger.error(this.meta.name, err);
+            m.find((x) => x.name === "DeveloperExperimentStore").actionHandler["CONNECTION_OPEN"]();
+            try { m.find((x) => x.name === "ExperimentStore").actionHandler["OVERLAY_INITIALIZE"]({ user: { flags: 1 } }) } catch { }
+            m.find((x) => x.name === "ExperimentStore").storeDidChange()
+        } catch (err) {
+            //Logger.error(this.meta.name, err);
         }
     }
-
 
     clientThemes() {
         if (this.clientThemesModule == undefined) this.clientThemesModule = Webpack.getModule(Webpack.Filters.byProps("isPreview"));
@@ -1426,13 +1425,6 @@ module.exports = class Moonlink {
     };
 
     async fakeAvatarDecorations() {
-        // keep track of profiles downloaded
-        Patcher.after(this.meta.name, userProfileMod, "getUserProfile", (_, [args], ret) => {
-            if (ret == undefined) return;
-            if (ret.userId == undefined) return;
-            if (downloadedUserProfiles[args]) return;
-            downloadedUserProfiles.push(ret.userId);
-        });
 
         // apply decorations
         Patcher.after(this.meta.name, UserStore, "getUser", (_, args, ret) => {
@@ -1443,12 +1435,8 @@ module.exports = class Moonlink {
             const avatarDecorations = settings.avatarDecorations;
 
             function getRevealedText(self) {
-                let revealedTextLocal = ""; // init empty string with local scope
-
-                // if this user's profile has been downloaded
-                if (downloadedUserProfiles[args[0]]) {
-                    // get the user's profile from the cached user profiles
-                    const userProfile = userProfileMod.getUserProfile(args[0]);
+                let revealedTextLocal = ""; //init empty string with local scope
+                let userProfile = userProfileMod.getUserProfile(args[0]); //get the user's profile from the cached user profiles
 
                     // if their bio is empty, move on to the next check.
                     if (userProfile?.bio != undefined) {
@@ -1462,7 +1450,6 @@ module.exports = class Moonlink {
                             }
                         }
                     }
-
                 }
                 const activities = UserStatusStore.getActivities(args[0]);
                 if (activities.length > 0) {
@@ -1506,7 +1493,7 @@ module.exports = class Moonlink {
                     sku_id: "1144003461608906824" // dummy sku id
                 };
 
-                // add user to the list of users to show with the Moonlink user badge we haven't already.
+                //add user to the list of users to show with the Moonlink user badge if we haven't already.
                 if (!badgeUserIDs.includes(ret.id)) badgeUserIDs.push(ret.id);
             }
         }); // end of getUser patch for avatar decorations
@@ -1908,7 +1895,7 @@ module.exports = class Moonlink {
                         // send file with text and shit
                         originalFunction(args);
 
-                        // loop through emotes to send one at a time
+                        //loop through emotes to send one at a time. this has technically no delay so it may trigger anti-spam.
                         for (let i = 0; i < emojis.length; i++) {
                             const emoji = emojis[i];
                             let emojiUrl = AvatarDefaults.getEmojiURL(emoji);
@@ -2102,14 +2089,15 @@ module.exports = class Moonlink {
     } // End of emojiBypass()
 
     inlineFakemojiPatch(){
-        //Somehow, this is the first time I've had to actually patch message rendering.
+        //Somehow, this is the first time I've had to actually patch message rendering. (and it shows!)
         Patcher.before(this.meta.name, messageRender.ZP, "type", (_,[args]) => {
             //console.log(args);
             for(let i = 0; i < args.content.length; i++){
                 let contentItem = args.content[i];
                 
-                if(contentItem.type.type?.toString().includes("MASKED_LINK")){ //is it a hyperlink? if so...
-                    if(contentItem.props.href.startsWith("https://cdn.discordapp.com/emojis/")){ //does this hyperlink have an emoji URL? if so...
+                if(contentItem.type.type?.toString().includes("MASKED_LINK")){ //is it a hyperlink?
+                    
+                    if(contentItem.props.href.startsWith("https://cdn.discordapp.com/emojis/")){ //does this hyperlink have an emoji URL?
                         
                         let emojiName = contentItem.props?.children[0]?.props?.children;
                         if(emojiName == undefined) continue;
@@ -2117,16 +2105,17 @@ module.exports = class Moonlink {
                         let key = contentItem.key; //store key
                         //create discord emoji react element
                         let emoteElement = BdApi.React.createElement(MessageEmojiReact, {
-                            //self explanatory arguments
                             node: {
                                 name: `:${emojiName}:`,
-                                src: contentItem.props.href,
+                                src: contentItem.props.href.split("?")[0] + "?size=48",
                                 type: "emoji",
-                                jumboable: false //makes the emoji large or small. "jumboable" is a silly name from Wumpus or some shit.
+                                emojiId: contentItem.props.href.replace("https://cdn.discordapp.com/emojis/", "").split(".")[0],
+                                animated: true,
+                                jumboable: false //makes the emoji large or small. "jumboable" is a stupid ass name, Discord. 
                             },
                             channelId: args.message.channel_id,
                             messageId: args.message.id,
-                            enableClick: true
+                            enableClick: true //I'm curious in what circumstance this value becomes false. Does what it says on the tin; enables or disables the emoji click menu.
                         });
                         
                         //restore key
@@ -2137,7 +2126,9 @@ module.exports = class Moonlink {
                 }
             }
         });
+
         //who knows what unholy compatibility issues this will bring me
+        //this code fucking sucks i think
         Patcher.instead(this.meta.name, renderEmbedsMod, "renderEmbeds", (_, [message], originalFunction) => {
             //get what the original function would have returned
             let ret = originalFunction(message);
@@ -2146,21 +2137,38 @@ module.exports = class Moonlink {
                     for(let i = 0; i < ret.length; i++){
                         if(ret[i]){
                             if(ret[i].props?.children?.props?.embed?.image?.url){
-                                let matches = ret[i].props.children.props.embed.image.url.startsWith("https://cdn.discordapp.com/emojis/");
-                                if(ret.length == 1){ //if there is only 1 fakemoji
+                                let url = ret[i].props.children.props.embed.image.url;
+                                let isEmojiHyperlink = false;
+
+                                //this embed is an emoji
+                                if(url.startsWith("https://cdn.discordapp.com/emojis/")){
                                     
-                                    //matches and removes first instance of pattern [anyemojiname](https://cdn.discordapp.com/emojis/anynumber.ext)
-                                    //then checks if there is anything else in the message, and also checks if the embed image url starts with https://cdn.discordapp.com/emojis/ for some reason which idk if thats necessary but it doesnt cost much so might as well
-                                    if(message.content.replace(/\[.*?\]\(https:\/\/cdn\.discordapp\.com\/emojis\/\d+\.(png|webp|gif).*?\)/, "") //is a regex even necessary..?
-                                        .trim().length > 0 && matches){ //if there is other stuff in the message, delete the embed
-                                            delete ret[i];
+                                    /* Is embed from a hyperlink? It can't tell if it's from a hyperlink *this time*, unfortunately, 
+                                     * so if someone has an emoji URL and a hyperlink with that same URL in the same message, it won't render correctly (or at least not how you might expect)!
+                                     * Let's just hope nobody notices that..! I didn't have this system initially cause I'm a dumbfuck and didn't think it over.
+                                    */
+                                    if(message.content.includes(`](${url})`)){
+                                        isEmojiHyperlink = true;
                                     }
-                                    //if there is 1 fakemoji and nothing else in the message, it will keep the regular embed (default behavior)
-                                    //for some reason, if the fakemoji is in a message alone, it disappears, so keeping the embed was the easiest solution
-                                }
-                                //if there is more than 1 hyperlink
-                                else{
-                                    if(matches) delete ret[i]; //if the hyperlink is an emoji url, delete the embed
+
+                                    //if currently processed embed is an emoji and a hyperlink
+                                    if(isEmojiHyperlink){
+                                        if(ret.length == 1){ //if there is only 1 fakemoji
+                                    
+                                            //removes first instance of pattern [anyemojiname](https://cdn.discordapp.com/emojis/anynumber.ext) then checks if there is anything else in the message
+                                            if(message.content.replace(/\[.*?\]\(https:\/\/cdn\.discordapp\.com\/emojis\/\d+\.(png|webp|gif).*?\)/, "") //is regex necessary? probably.
+                                                .trim().length > 0){ //if there is other stuff in the message, delete the embed
+                                                    delete ret[i];
+                                            }
+                                            //if there is 1 fakemoji and nothing else in the message, it will keep the regular embed (default behavior)
+                                            //for some reason, if the fakemoji is in a message alone, it disappears, so keeping the embed was the easiest solution
+                                        }
+        
+                                        //if there is more than 1 hyperlink
+                                        else{
+                                            delete ret[i]; //if the hyperlink is an emoji url, delete the embed
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -2168,6 +2176,7 @@ module.exports = class Moonlink {
                 }
                 //removes empty items from the array. def did not take from stackoverflow (trust)
                 ret = ret.filter(n => n); 
+
                 return ret;
             }else{ //if the original function returns undefined/null
                 //this should never happen, but in case it does, return an empty array
@@ -2401,7 +2410,8 @@ module.exports = class Moonlink {
             document.getElementsByClassName(AccountDetailsClasses.container)[0].appendChild(qualityButton);
         }
  catch (err) {
-            Logger.error(this.meta.name, "What the fuck happened..? During buttonCreate() " + err);
+            Logger.error(this.meta.name, "What the fuck happened..? Couldn't append child during buttonCreate() " + err);
+            return;
         }
 
         const qualityMenu = document.createElement("div");
